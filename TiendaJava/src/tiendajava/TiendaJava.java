@@ -16,12 +16,12 @@ public class TiendaJava {
         Scanner lea = new Scanner(System.in);
         lea.useDelimiter("\n");
         int azucar=10, avena=10, trigo=10, maiz=10;
-      double efectivoCaja = 0.0;
+      float efectivoCaja = (float) 0.0;
         int ventasRealizadas = 0;
         int comprasRealizadas = 0;
-        double totalVentas = 0.0;
-        double totalCompras = 0.0;
-        double ganancia = 0.0;
+        float totalVentas = (float) 0.0;
+        float totalCompras = (float) 0.0;
+        float ganancia = (float) 0.0;
         int cantidadAzucarVendida = 0;
         int cantidadAvenaVendida = 0;
         int cantidadTrigoVendida = 0;
@@ -63,71 +63,119 @@ public class TiendaJava {
                     break;
                  
                 case 2:
-                    if(efectivoCaja <= 0){
-                        System.out.println("No hay efetivo suficiente, por favor abra caja!!!");
-                        break;
-                    }
-                    boolean validacion = false;
-                    String tipo = "";
-                    while(validacion != true){
-                        
-                    System.out.print("Ingrese tipo de cliente: ");
-                    tipo = lea.next();
-                    
-                    if(tipo.equals("a")||tipo.equals("A")||tipo.equals("b")||tipo.equals("B")||tipo.equals("c")||tipo.equals("C")){
-                        validacion = true;
-                    }else{
-                        System.out.println("Opcion no valida!!!");
-                    }
-                    
-                    }
-                    boolean compra = false;
-                    while(compra != true){
-                        System.out.print("Ingrese el codigo del producto: ");
-                        int cod = lea.nextInt();
-                     if(tipo.equals("a")||tipo.equals("A")){
-                         if(cod==1){
-                             System.out.println("==============="
-                                         +"\n"+"=Azucar 45lps.="
-                                         +"\n"+"===============");
-                             System.out.println("Ingrese los kilogramos: ");
-                             int kg = lea.nextInt();
-                             azucar -= kg;
-                             
-                         }else if(cod==2){
-                             System.out.println("==============="
-                                         +"\n"+"=Avena 50lps. ="
-                                         +"\n"+"===============");
-                              System.out.println("Ingrese los kilogramos: ");
-                             int kg = lea.nextInt();
-                             avena -= kg;
-                         }else if(cod==3){
-                             System.out.println("==============="
-                                         +"\n"+"=Trigo 50lps. ="
-                                         +"\n"+"===============");
-                              System.out.println("Ingrese los kilogramos: ");
-                             int kg = lea.nextInt();
-                             trigo -= kg;
-                         }else if(cod==4){
-                              System.out.println("==============="
-                                         +"\n"+"=Maiz 50lps.  ="
-                                         +"\n"+"===============");
-                               System.out.println("Ingrese los kilogramos: ");
-                             int kg = lea.nextInt();
-                             maiz -= kg;
-                         }
-                     }else if()
-                     
-                        System.out.println("¿Desea comprar otro producto? (Si/No): ");
-                        String sn = lea.next();
-                        sn = sn.toLowerCase();
-                        
-                        if(sn.equals("no")){
-                            compra = true;
-                        }
-                                          
-                    }
-                    
+               
+if(efectivoCaja <= 0){
+    System.out.println("No hay efectivo suficiente, por favor abra caja!!!");
+    break;
+}
+
+boolean validacion = false;
+String tipo = "";
+while(validacion != true){
+    System.out.print("Ingrese tipo de cliente: ");
+    tipo = lea.next();
+    if(tipo.equals("a")||tipo.equals("A")||tipo.equals("b")||tipo.equals("B")||tipo.equals("c")||tipo.equals("C")){
+        validacion = true;
+    }else{
+        System.out.println("Opcion no valida!!!");
+    }
+}
+
+// Variables para ir sumando la compra del cliente
+String facturaDetalle = "";
+double subtotalFactura = 0;
+
+boolean compra = false;
+while(compra != true){
+    System.out.print("Ingrese el codigo del producto: ");
+    int cod = lea.nextInt();
+    String nombreProd = "";
+    double precioProd = 0;
+    boolean puedeComprar = false;
+
+    // Validar si el cliente puede comprar ese producto
+    if((tipo.equals("a")||tipo.equals("A")) && (cod==1||cod==2||cod==3||cod==4)){
+        puedeComprar = true;
+    }else if((tipo.equals("b")||tipo.equals("B")) && (cod==1||cod==2||cod==3)){
+        puedeComprar = true;
+    }else if((tipo.equals("c")||tipo.equals("C")) && (cod==4)){
+        puedeComprar = true;
+    }
+
+    // Asignar nombre y precio
+    if(cod == 1){
+        nombreProd = "Azucar";
+        precioProd = 45;
+    }else if(cod == 2){
+        nombreProd = "Avena";
+        precioProd = 50;
+    }else if(cod == 3){
+        nombreProd = "Trigo";
+        precioProd = 50;
+    }else if(cod == 4){
+        nombreProd = "Maiz";
+        precioProd = 50;
+    }else{
+        puedeComprar = false; // Código no válido
+    }
+
+    if(puedeComprar){
+        System.out.println("===============");
+        System.out.println("=" + nombreProd + " " + precioProd + "lps.=");
+        System.out.println("===============");
+        System.out.print("Ingrese los kilogramos: ");
+        int kg = lea.nextInt();
+        // Actualizar stock:
+        if(cod == 1) azucar -= kg;
+        if(cod == 2) avena -= kg;
+        if(cod == 3) trigo -= kg;
+        if(cod == 4) maiz -= kg;
+
+        double subtotal = kg * precioProd;
+        subtotalFactura += subtotal;
+
+        // Guardar detalle para factura
+        facturaDetalle += "\nProducto: " + nombreProd + " | Kg: " + kg + " | Precio U: " + precioProd + " | Subtotal: " + subtotal;
+    }else{
+        System.out.println("NO PUEDE COMPRAR DICHO PRODUCTO");
+    }
+
+    System.out.print("¿Desea comprar otro producto? (si/no): ");
+    String sn = lea.next();
+    if(sn.equalsIgnoreCase("no")){
+        compra = true;
+    }
+}
+
+// ---- Al FINAL, cuando el cliente termina, se imprime la factura ----
+System.out.println("\n----------- FACTURA -----------");
+System.out.println(facturaDetalle);
+System.out.println("Subtotal: " + subtotalFactura + " lps.");
+
+double descuento = 0;
+if(subtotalFactura >= 1000 && subtotalFactura <= 5000){
+    descuento = subtotalFactura * 0.05;
+}else if(subtotalFactura > 5000){
+    descuento = subtotalFactura * 0.10;
+}
+if(descuento > 0){
+    System.out.println("Descuento aplicado: -" + descuento + " lps.");
+}
+double subtotalConDesc = subtotalFactura - descuento;
+double impuesto = subtotalConDesc * 0.07;
+double totalPagar = subtotalConDesc + impuesto;
+
+System.out.println("Impuesto (7%): " + impuesto + " lps.");
+System.out.println("TOTAL A PAGAR: " + totalPagar + " lps.");
+System.out.println("-------------------------------");
+
+// Sumar a caja
+efectivoCaja += totalPagar;
+System.out.println("Efectivo en caja ahora: " + efectivoCaja + " lps.");
+
+// Al finalizar
+System.out.println("Regresando a MENU PRINCIPAL...");
+
                     break;
           
                 case 3:
@@ -149,8 +197,8 @@ public class TiendaJava {
                     System.out.println("Margen de ganancia: Lps. " + ganancia);
 
                     
-                    double promedioVentas = (ventasRealizadas > 0) ? totalVentas / ventasRealizadas : 0;
-                    double promedioCompras = (comprasRealizadas > 0) ? totalCompras / comprasRealizadas : 0;
+                    float promedioVentas = (ventasRealizadas > 0) ? totalVentas / ventasRealizadas : 0;
+                    float promedioCompras = (comprasRealizadas > 0) ? totalCompras / comprasRealizadas : 0;
                     System.out.println("Valor medio de ventas: Lps. " + promedioVentas);
                     System.out.println("Valor medio de compras: Lps. " + promedioCompras);
 
@@ -174,8 +222,7 @@ public class TiendaJava {
                     System.out.println("Hasta luego!");
                     break;
 
-                default:
-                    System.out.println("Opcion no valida.");
+                
             }
         } while (op != 5); 
     }
