@@ -203,7 +203,7 @@ public class TiendaJava {
                                 (tipoProv.equals("C") || tipoProv.equals("c"))) {
                                 proveedorValido = true;
                             } else {
-                                System.out.println("Opción no válida!!!");
+                                System.out.println("Opcion no valida!!!");
                             }
                         }
 
@@ -261,7 +261,7 @@ public class TiendaJava {
                                 System.out.println("Total Compra: Lps. " + totalCompra);
                                 System.out.println("Efectivo restante en caja: Lps. " + efectivoCaja);
                                 System.out.println("Stock actualizado - Azucar: " + azucar + "kg, Avena: " + avena + "kg, Trigo: " + trigo + "kg, Maiz: " + maiz + "kg");
-                                System.out.println("Regresando a MENÚ PRINCIPAL...");
+                                System.out.println("Regresando a MENU PRINCIPAL...");
                             } else {
                                 System.out.println("No se puede pagar compra. Efectivo insuficiente en caja.");
                             }
@@ -304,12 +304,12 @@ public class TiendaJava {
                     case 5:
                         System.out.println("=== CIERRE DE CAJA ===");
                         System.out.println("Total efectivo en caja: Lps. " + efectivoCaja);
-                        System.out.print("¿Cuánto efectivo desea depositar en el banco? (máx 60%): ");
+                        System.out.print("¿Cuanto efectivo desea depositar en el banco? (máx 60%): ");
                         float maxDeposito = efectivoCaja * 0.6f;
-                        System.out.println("El máximo permitido a depositar es: Lps. " + maxDeposito);
+                        System.out.println("El maximo permitido a depositar es: Lps. " + maxDeposito);
                         float aDepositar = lea.nextFloat();
                         if (aDepositar > maxDeposito) {
-                            System.out.println("No puede depositar más del 60%. Se depositará el máximo permitido.");
+                            System.out.println("No puede depositar mas del 60%. Se depositara el máximo permitido.");
                             aDepositar = maxDeposito;
                         }
                         efectivoCaja -= aDepositar;
@@ -331,7 +331,7 @@ public class TiendaJava {
                         break;
 
                     case 6:
-                        System.out.println("¡Hasta luego!");
+                        System.out.println("Hasta luego!");
                         break;
                 }
             }
